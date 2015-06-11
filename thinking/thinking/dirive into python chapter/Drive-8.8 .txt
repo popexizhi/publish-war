@@ -1,0 +1,74 @@
+8.8
+Dialectizer，BaseHTMLProeccor之简单拙劣派生类。以替换文本串为己任，但<pre>..</pre>块中不处理。为不替<pre>块之事，定义在Dialectizer中star_pre 与end_pre用之。
+Example 8.17. Handling specific tags
+def start_pre(self, attrs):                        1
+        self.verbatim += 1                         2
+        self.unknown_starttag("pre", attrs)        3
+
+def end_pre(self):                                 4
+        self.unknown_endtag("pre")                 5
+        self.verbatim  = 1                         6
+1.
+SGMLParser 在HTML源码中每遇<pre> ，则调start_pre。（少顷，可详见此过程）此方法有一attrs参数，此参数包含全部tag中属性（如果存在属性）。 attrs 为key/value tuples,如 unknown_starttag所见。
+2.
+在reset 方法中，你为<pre>标签初始化数据属性的计数器。每次你遇<pre> 标签，增此计数器；每逢</pre>标签，减</pre>标签。（本可只用标志位设1，0处理，但此计数器易于处理古怪的嵌套<pre>标签）。一会儿，你将看到此计数器的好处。
+3.
+止于此，为<pre>标签所作的唯一特殊处理，传其属性列表至unknow_starttage ，做其默认处理。
+4.
+end_pre 每次在遇到</pre>标签时被调用，由于end tags没有attributes，所以此方法没有参数
+5.
+首先，要像其他end tag 一样的默认处理。
+6.
+次之，减少<pre>的计数器以结束此<pre>标签.
+
+到了这个地方，有必要对 SGMLParser 更深入一层。我已经多次声明 (到目前为止您应已经把它做为信条了) ，就是 SGMLParser 查找每一个标记并且如果存在特定的方法就调用它们。例如：我们刚刚看到处理 <pre> 和 </pre> 的 start_pre 和 end_pre 的定义。但这是如何发生的呢？嗯，也没什么神奇的，只不过是出色的 Python 编码。 
+
+Example 8.18. SGMLParser
+[原文]P115
+    def finish_starttag(self, tag, attrs):                                                         1
+        try:                                           
+            method = getattr(self, 'start_' + tag)                                               2
+            except AttributeError:                                                                             3               
+            try:                                       
+                method = getattr(self, 'do_' + tag)                                               4
+            except AttributeError:                                                                         5
+                self.unknown_starttag(tag, attrs)       
+                return  1                              
+            else:                                                                                                      6     
+                self.handle_starttag(tag, method, attrs)
+                return 0                               
+        else:                                                                                                          7                        
+            self.stack.append(tag)                     
+            self.handle_starttag(tag, method, attrs)   
+            return 1                                    
+    def handle_starttag(self, tag, method, attrs):     
+        method(attrs)                                                                                           8                               
+1.
+此处，SGMLParser 已经找到了一个开始标记，并且分析出属性列表。唯一要做的事情就是检查对于这个标记是否存在一个特别的处理方法，否则我们就应该求助于缺省方法 (unknown_starttag) 。 
+2.
+“神奇”的SGMLParser 没比熟悉的getattr多什么。 可能之前你没有意识到,getattr 将在对象的其子类和对象的自身中，查找此方法。 当前的例子中object 就是它自己，so 所以如果tag 是‘pre’，在当前例子中，调用gettattr就查找start_pre方法，这个就是Dialectizer类的调用例子。
+3.
+如果method在对象（获其子类中）无法找到，getattr就抛出 AttributeError。但这个正好，因为 你封装(wrapped)此调用在try...except 块(block)中并且明确要捕获AttributeError.
+4.
+如果你没有找到start_xxx方法，放弃前可以尝试do_xxx 方法。这种代替(alternate)的命名方法是用来处理独立的tags的，像<br>，它没有相对应(corresponding)的结束tag.但是您可以使用任何一种模式，如你所见SGMLParser 尝试每个tag两次（你不能同时定义start_xxx和do_xxx 方法对同一个tag，尽管如此只有start_xxx 方法被执行）哦
+5.
+另一个AttributeError, 意味调用do_xxx的getatter失败。如果你对这个tag，没有发现如何可用的start_xxx 或者do_xxx ，及可以捕捉到异常并且失败返回默认的的方法 unknown_starttag.
+6.
+记得吗？try...except 块可以有一个 else 子句，当在 try...except 块中没有异常被引发时，它将被调用。逻辑上，意味着我们确实 找到了这个标记的 do_xxx 方法，所以我们将要调用它。 
+7.
+附带说一下，别担心返回不同 值。理论上他们以为这一些，实际上从未被使用。即不用担心self.stack.append(tag)，SGMLParser 保持内部跟踪是否你的开始tags 与结束tags是成对使用的(are balanced by),但它对这个信息什么也没有处理。理论上(in theory),你可以使用这种方式使你的tags的对称使用生效(validate),但是它可能没什么价值，并且超出了这章的范围。现在你还有其他需要关注的。
+8.
+start_xxx 和 do_xxx 方法并不被直接调用；标记名、方法和属性被传给 handle_starttag 这个方法，以便继承者可以覆盖它，并改变全部 开始标记分发的方式。我们不需要控制这个层面，所以我们只让这个方法做它自已的事，就是用属性 list 来调用方法 (start_xxx 或 do_xxx) 。记住 method 是一个从 getattr 返回的函数，而函数是对象。 (我知道您已经听腻了，我发誓，一旦我们停止寻找新的使用方法来为我们服务时，我就决不再提它了。) 这个函数对象通过函数指针方式作为一个参数传入，反过来通过这传入的指针地址调用此函数。
+这里，你不需要知道此函数的名称，或者它在哪里定义；这里你唯一要求知道的就是这个函数作为attrs的一个参数被调用了。
+
+现在回到我们已经计划好的程序：Dialectizer。当我们跑题时，我们定义了特别的处理方法来处理 <pre> 和 </pre> 标记。还有一件事没有做，那就是用我们预定义的替换处理来处理文本块。为了实现它，我们需要覆盖 handle_data 方法。 
+
+Example 8.19. Overriding the handle_data method
+[原文]P116
+    def handle_data(self, text):                                                                                                 1
+        self.pieces.append(self.verbatim and text or self.process(text))                            2
+1 
+handle_data 在调用时只使用一个参数：要处理的文本 
+2
+在祖先类 BaseHTMLProcessor 中，handle_data 方法只是将文本追加到输出缓冲区 self.pieces 之后.这里的逻辑稍微有点复杂。如果我们处于 <pre>...</pre> 块的中间，self.verbatim 将是大于 0 的某个值，接着我们想要将文本不作改动地传入输出缓冲区。否则，我们将调用另一个单独的方法来进行替换处理，然后将处理结果放入输出缓冲区中。在 Python 中，这是一个一行代码，它使用了and-or 技巧。
+我们已经接近了对 Dialectizer 的全面理解。唯一缺少的一个环节是文本替换的特性。如果您知道点 Perl，您就会知道当需要复杂的文本替换时，唯一有效的解决方法就是正则表达式。在 dialect.py 文件后面的几个类中定义了一连串的正则表达式来操作 HTML 标记中的文本。我们已经学习过了正则表达式中的所有字符。我们不必重复学习正则表达式的艰难历程了，不是吗？上帝知道我反正不需要。我想现在这章您已经学得差不多了。 

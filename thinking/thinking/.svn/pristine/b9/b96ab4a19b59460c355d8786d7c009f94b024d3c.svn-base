@@ -1,0 +1,554 @@
+<map version="1.0.1">
+<!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
+<node CREATED="1401184725152" ID="ID_468641799" MODIFIED="1401184746183" TEXT="Chapter 15. Refactoring ">
+<node CREATED="1401184900870" FOLDED="true" ID="ID_261376962" MODIFIED="1422407625325" POSITION="right" TEXT="15.1. Handling bugs ">
+<node CREATED="1401184964323" ID="ID_1905489652" MODIFIED="1403602676184">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Despite your best efforts to write comprehensive unit tests, bugs happen. What do I mean by "bug"? A bug is a test case you&#xa0;haven't written yet.
+    </p>
+    <p>
+      [pope &#x8bd1;]
+    </p>
+    <p>
+      &#x5c3d;&#x7ba1;&#x4f60;&#x505a;&#x4e86;&#x6700;&#x5b8c;&#x6210;&#x7684;&#x5355;&#x5143;&#x6d4b;&#x8bd5;&#xff0c;&#x4f46;bugs&#x8fd8;&#x662f;&#x51fa;&#x73b0;&#x4e86;&#x3002;&#x90a3;bug&#x53c8;&#x610f;&#x5473;&#x7740;&#x4ec0;&#x4e48;&#x5462;&#xff1f;&#x4e00;&#x4e2a;bug&#x5c31;&#x662f;&#x4e00;&#x4e2a;&#x4f60;&#x8fd8;&#x6ca1;&#x6709;&#x5199;&#x7684;&#x6d4b;&#x8bd5;&#x7528;&#x4f8b;
+    </p>
+  </body>
+</html></richcontent>
+</node>
+<node CREATED="1403602763200" FOLDED="true" ID="ID_1802641986" MODIFIED="1404806675171" TEXT="Example 15.1. The bug">
+<node CREATED="1403603175653" ID="ID_1353120047" MODIFIED="1403603202293">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      &gt;&gt;&gt; import roman5
+    </p>
+    <p>
+      &gt;&gt;&gt; roman5.fromRoman("") ------------------------------1
+    </p>
+    <p>
+      0
+    </p>
+  </body>
+</html></richcontent>
+<node CREATED="1403603203950" ID="ID_72245657" MODIFIED="1404806360250">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      1.
+    </p>
+    <p>
+      Remember in the previous section when you kept seeing that an empty string would match the regular expression you were using to check for valid Roman numerals? Well, it turns out that this is still true for the&#xa0;final version of the regular expression. And that's a bug; you want an empty string to raise an&#xa0;&#xa0;InvalidRomanNumeralError exception just like any other sequence of characters that don't represent a valid Roman numeral.
+    </p>
+    <p>
+      [pope&#x8bd1;]
+    </p>
+    <p>
+      &#x53ef;&#x8bb0;&#x7684;&#x524d;&#x7ae0;&#x66fe;&#x89c1;&#x7a7a;&#x4e32;&#x7b26;&#x5408;&#x7f57;&#x9a6c;&#x6570;&#x5b57;&#x7684;&#x68c0;&#x67e5;&#xff1f;&#x662f;&#xff0c;&#x6b64;&#x7248;&#x672c;&#x6b63;&#x5219;&#x68c0;&#x67e5;&#x51fa;&#x7684;&#x95ee;&#x9898;&#x663e;&#x793a;&#x4e3a;&#x771f;&#x3002;&#x662f;&#x4e2a;bug&#xff0c;&#x4f60;&#x672c;&#x610f;&#x7a7a;&#x4e32;&#x4e3a;&#x5047; &#x629b;&#x51fa; &#xa0;InvalidRomanNumeralError&#x5f02;&#x5e38; &#xff0c;&#x5c31;&#x50cf;&#x5176;&#x4ed6;&#x975e;&#x7f57;&#x9a6c;&#x6570;&#x5b57;&#x5217;&#x8868;&#x3002;
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+<node CREATED="1404806366968" ID="ID_417512030" MODIFIED="1404806534750">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      After reproducing&#xa0;the bug, and before fixing it, you should write a test case that fails, thus illustrating the bug
+    </p>
+    <p>
+      [pope &#x8bd1;]
+    </p>
+    <p>
+      &#x91cd;&#x73b0;&#x6b64;bug&#x540e;&#xff0c;&#x4fee;&#x590d;&#x524d;&#xff0c;&#x4f60;&#x5f53;&#x5199;&#x6b64;&#x5931;&#x6548;&#x7684;&#x6d4b;&#x8bd5;&#x7528;&#x4f8b;&#xff0c;&#x6765;&#x8bb0;&#x8ff0;{illustrating}&#x6b64;bug
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+<node CREATED="1404806605296" ID="ID_1594664854" MODIFIED="1404806606546" TEXT="Example 15.2. Testing for the bug (romantest61.py)">
+<node CREATED="1404806616781" ID="ID_547024989" MODIFIED="1404806624296">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      class FromRomanBadInput(unittest.TestCase):&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;# previous test cases omitted for clarity (they haven't changed)
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;def testBlank(self):
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;"""fromRoman should fail with blank string"""
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;self.assertRaises(roman.InvalidRomanNumeralError, roman.fromRoman, "")&#xa0;&#xa0;&#xa0;--------------------1
+    </p>
+  </body>
+</html></richcontent>
+<node CREATED="1404806669281" ID="ID_36402773" MODIFIED="1404806978250">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      1
+    </p>
+    <p>
+      Pretty simple stuff here. Call fromRoman with an empty string and make sure it raises an InvalidRomanNumeralError exception. The hard part was finding the bug; now that you know about it, testing for it is the easy part.
+    </p>
+    <p>
+      [pope&#x8bd1;]
+    </p>
+    <p>
+      &#x6b64;&#x5904;&#x9887;{pretty}&#x7b80;&#x5355;.&#x7528;&#x7a7a;&#x4e32;&#x8c03;fromRoman&#xff0c;&#x4e14;&#x786e;&#x5b9a;&#x6b64;&#x5f53;&#x629b;InvalidRomanNumeralError&#x5f02;&#x5e38;&#x3002;&#x96be;&#x51fa;&#x662f;&#x53d1;&#x73b0;&#x6b64;bug&#xff1b;&#x73b0;&#x5728;&#x541b;&#x5f53;&#x77e5;testing&#x624d;&#x662f;&#x7b80;&#x5355;&#x7684;&#x90e8;&#x5206;&#x800c;&#x5df2;&#x3002;
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+</node>
+<node CREATED="1404807012953" FOLDED="true" ID="ID_910147028" MODIFIED="1404807163453">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Since your code has a bug, and you now have a test case that tests this bug, the test case will fail
+    </p>
+    <p>
+      [pope&#x8bd1;]
+    </p>
+    <p>
+      &#x56e0;code&#x6709;bug&#xff0c;&#x4e14;&#x73b0;&#x5728;&#x6709;&#x6b64;bug&#x7684;&#x6d4b;&#x8bd5;&#x7528;&#x4f8b;&#xff0c;&#x6b64;&#x7528;&#x4f8b;&#x6267;&#x884c;&#x5931;&#x8d25;&#x5982;&#x4e0b;:
+    </p>
+  </body>
+</html></richcontent>
+<node CREATED="1404807141078" ID="ID_1138041004" MODIFIED="1404807157171">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Example 15.3. Output of romantest61.py against roman61.py
+    </p>
+    <p>
+      fromRoman should only accept uppercase input ... ok
+    </p>
+    <p>
+      toRoman should always return uppercase ... ok
+    </p>
+    <p>
+      fromRoman should fail with blank string ... FAIL
+    </p>
+    <p>
+      fromRoman should fail with malformed antecedents ... ok
+    </p>
+    <p>
+      fromRoman should fail with repeated pairs of numerals ... ok
+    </p>
+    <p>
+      fromRoman should fail with too many repeated numerals ... ok
+    </p>
+    <p>
+      fromRoman should give known result with known input ... ok
+    </p>
+    <p>
+      toRoman should give known result with known input ... ok
+    </p>
+    <p>
+      fromRoman(toRoman(n))==n for all n ... ok
+    </p>
+    <p>
+      toRoman should fail with non&#x2212;integer input ... ok
+    </p>
+    <p>
+      toRoman should fail with negative input ... ok
+    </p>
+    <p>
+      toRoman should fail with large input ... ok
+    </p>
+    <p>
+      toRoman should fail with 0 input ... ok
+    </p>
+    <p>
+      ======================================================================
+    </p>
+    <p>
+      FAIL: fromRoman should fail with blank string
+    </p>
+    <p>
+      &#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;
+    </p>
+    <p>
+      Traceback (most recent call last):
+    </p>
+    <p>
+      &#xa0;&#xa0;File "C:\docbook\dip\py\roman\stage6\romantest61.py", line 137, in testBlank
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;self.assertRaises(roman61.InvalidRomanNumeralError, roman61.fromRoman, "")
+    </p>
+    <p>
+      &#xa0;&#xa0;File "c:\python21\lib\unittest.py", line 266, in failUnlessRaises
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;raise self.failureException, excName
+    </p>
+    <p>
+      AssertionError: InvalidRomanNumeralError
+    </p>
+    <p>
+      &#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;
+    </p>
+    <p>
+      Ran 13 tests in 2.864s
+    </p>
+    <p>
+      FAILED (failures=1)
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+<node CREATED="1404807161421" ID="ID_1152307237" MODIFIED="1404807198328">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Now you can fix the bug.
+    </p>
+    <p>
+      [pope &#x8bd1;]
+    </p>
+    <p>
+      &#x73b0;&#x5728;&#x6765;&#x4fee;&#x590d;&#x6b64;bug
+    </p>
+  </body>
+</html></richcontent>
+</node>
+<node CREATED="1404807255953" FOLDED="true" ID="ID_1778868380" MODIFIED="1404808128265" TEXT="Example 15.4. Fixing the bug (roman62.py)">
+<node CREATED="1404807270437" ID="ID_914062268" MODIFIED="1404807331343">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      This file is available in py/roman/stage6/ in the examples directory
+    </p>
+    <p>
+      [pope &#x8bd1;]
+    </p>
+    <p>
+      &#x6b64;&#x6587;py/roman/stage6/ &#x5b9e;&#x4f8b;&#x6587;&#x4ef6;&#x4e2d;
+    </p>
+  </body>
+</html></richcontent>
+</node>
+<node CREATED="1404807355859" ID="ID_552048762" MODIFIED="1404807366546">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      def fromRoman(s):
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;"""convert Roman numeral to integer"""
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;if not s:&#xa0; ------------------------------------------------------------------------------1
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;raise InvalidRomanNumeralError, 'Input can not be blank'
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;if not re.search(romanNumeralPattern, s):
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;raise InvalidRomanNumeralError, 'Invalid Roman numeral: %s' % s
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;result = 0
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;index = 0
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;for numeral, integer in romanNumeralMap:
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;while s[index:index+len(numeral)] == numeral:
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;result += integer
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;index += len(numeral)
+    </p>
+    <p>
+      &#xa0;&#xa0;&#xa0;&#xa0;return result
+    </p>
+  </body>
+</html></richcontent>
+<node CREATED="1404807368625" ID="ID_1156337751" MODIFIED="1404807863203">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      1
+    </p>
+    <p>
+      Only two lines of code are required: an explicit check for an empty string, and a raise statement.
+    </p>
+    <p>
+      [pope&#x8bd1;]
+    </p>
+    <p>
+      &#x53ea;&#x9700;&#x4e24;&#x884c;&#x4ee3;&#x7801;:&#x660e;&#x786e;&#x67e5;&#x7a7a;&#x4e32;&#xff0c;&#x629b;&#x5f02;&#x5e38;&#x58f0;&#x660e;
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+</node>
+<node CREATED="1404807896968" FOLDED="true" ID="ID_175023558" MODIFIED="1404808127000" TEXT="Example 15.5. Output of romantest62.py against roman62.py">
+<node CREATED="1404807899500" ID="ID_748425489" MODIFIED="1404807935062">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      fromRoman should only accept uppercase input ... ok
+    </p>
+    <p>
+      toRoman should always return uppercase ... ok
+    </p>
+    <p>
+      fromRoman should fail with blank string ... ok&#xa0; --------------------------------------------------------1
+    </p>
+    <p>
+      fromRoman should fail with malformed antecedents ... ok
+    </p>
+    <p>
+      fromRoman should fail with repeated pairs of numerals ... ok
+    </p>
+    <p>
+      fromRoman should fail with too many repeated numerals ... ok
+    </p>
+    <p>
+      fromRoman should give known result with known input ... ok
+    </p>
+    <p>
+      toRoman should give known result with known input ... ok
+    </p>
+    <p>
+      fromRoman(toRoman(n))==n for all n ... ok
+    </p>
+    <p>
+      toRoman should fail with non&#x2212;integer input ... ok
+    </p>
+    <p>
+      toRoman should fail with negative input ... ok
+    </p>
+    <p>
+      toRoman should fail with large input ... ok
+    </p>
+    <p>
+      toRoman should fail with 0 input ... ok
+    </p>
+    <p>
+      &#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;&#x2212;
+    </p>
+    <p>
+      Ran 13 tests in 2.834s
+    </p>
+    <p>
+      OK&#xa0; --------------------------------------------------------2
+    </p>
+  </body>
+</html></richcontent>
+<node CREATED="1404807965296" ID="ID_339616174" MODIFIED="1404808011453">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      1
+    </p>
+    <p>
+      The blank string test case now passes, so the bug is fixed
+    </p>
+    <p>
+      [pope&#x8bd1;]
+    </p>
+    <p>
+      &#x7a7a;&#x4e32;&#x6d4b;&#x8bd5;&#x7528;&#x4f8b;&#x901a;&#x8fc7;&#xff0c;&#x6b64;bug&#x4fee;&#x590d;
+    </p>
+  </body>
+</html></richcontent>
+</node>
+<node CREATED="1404808029156" ID="ID_1432747169" MODIFIED="1404808105703">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      2.
+    </p>
+    <p>
+      All the other test cases still pass, which means that this bug fix didn't break anything else. Stop coding
+    </p>
+    <p>
+      [pope&#x8bd1;]
+    </p>
+    <p>
+      &#x5168;&#x90e8;&#x6d4b;&#x8bd5;&#x7528;&#x4f8b;&#x901a;&#x8fc7;&#xff0c;&#x8fd9;&#x610f;&#x5473;&#x4fee;&#x590d;bug&#x672a;&#x5f15;&#x5165;&#x5176;&#x4ed6;&#x3002;&#x505c;&#x6b62;&#x7f16;&#x7a0b;&#x4e86;
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+</node>
+<node CREATED="1404808131203" ID="ID_254861937" MODIFIED="1422407571542">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Coding this way does not make fixing bugs any easier. Simple bugs (like this one) require simple test cases; complex bugs will require complex test cases.
+    </p>
+    <p>
+      In a testing&#8722;centric environment, it may seem like it takes longer to fix a bug, since you need to articulate in code exactly what the bug is (to write the test case), then fix the bug itself.
+    </p>
+    <p>
+      Then if the test case doesn't pass right away, you need to figure out whether the fix was wrong, or whether the test case itself has a bug in it.
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      [pope&#35793;]
+    </p>
+    <p>
+      &#36825;&#31181;&#32534;&#30721;&#26041;&#24335;&#24182;&#19981;&#33021;&#26356;&#31616;&#21333;&#30340;&#20462;&#22797;bug&#12290;&#31616;&#21333;&#30340;bug&#65288;&#20687;&#36825;&#20010;&#65289;&#38656;&#35201;&#31616;&#21333;&#30340;&#27979;&#35797;&#29992;&#20363;&#65307;&#22797;&#26434;&#30340;bug&#20250;&#38656;&#35201;&#22797;&#26434;&#30340;&#27979;&#35797;&#29992;&#20363;&#12290;
+    </p>
+    <p>
+      &#22312;&#27979;&#35797;&#20013;&#65292;&#30475;&#36215;&#26469;&#26356;&#20687;&#29992;&#36739;&#38271;&#26102;&#38388;&#20462;&#22797;bug&#65292;&#20320;&#38656;&#35201;&#26126;&#30830;{articulate}&#20195;&#30721;&#20013;&#36825;&#20010;bug&#30340;&#20160;&#20040;(&#24182;&#20889;&#21040;&#27979;&#35797;&#29992;&#20363;&#20013;)&#65292;&#28982;&#21518;&#20462;&#22797;&#36825;&#20010;bug&#12290;
+    </p>
+    <p>
+      &#37027;&#20040;&#22914;&#26524;&#27979;&#35797;&#29992;&#20363;&#24182;&#27809;&#26377;&#20351;&#29992;&#27491;&#30830;&#30340;&#26041;&#24335;&#27979;&#35797;&#36890;&#36807;&#65292;&#20320;&#38656;&#35201;&#24819;&#24819;{}&#36825;&#20010;&#20462;&#22797;&#26159;&#21542;&#26159;&#38169;&#35823;&#30340;&#65292;&#25110;&#32773;&#36825;&#20010;&#27979;&#35797;&#29992;&#20363;&#26412;&#36523;&#26377;bug
+    </p>
+  </body>
+</html></richcontent>
+</node>
+<node CREATED="1421804421919" ID="ID_1860935668" MODIFIED="1422407465213">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      However, in the long run, this back&#8722;and&#8722;forth between test code and code tested pays for itself, because it makes it more likely that bugs are fixed correctly the first time. Also, since you can easily re&#8722;run all the test cases along with your new one, you are much less likely to break old code when fixing new code. Today's unit test is tomorrow's regression test
+    </p>
+    <p>
+      [pope&#35793;]
+    </p>
+    <p>
+      &#26080;&#35770;&#22914;&#20309;,&#22312;&#38271;&#26102;&#38388;&#36807;&#21435;&#21518;&#65292;&#37325;&#25342;&#20043;&#21069;&#30340;&#27979;&#35797;&#20195;&#30721;&#21644;&#34987;&#27979;&#35797;&#30340;&#20195;&#30721;&#65292;&#36825;&#20010;&#36807;&#31243;&#20351;&#24471;&#23427;&#30475;&#36215;&#26469;&#26356;&#20687;&#26159;bug&#20204;&#22312;&#31532;&#19968;&#26102;&#38388;&#34987;&#20934;&#30830;&#30340;&#20462;&#22797;&#20102;&#12290;&#24182;&#19988;&#65292;&#22312;&#20320;&#30340;&#28155;&#21152;&#26032;&#20869;&#23481;&#21518;&#65292;&#20320;&#23601;&#21487;&#20197;&#31616;&#21333;&#30340;&#36816;&#34892;&#20840;&#37096;&#27979;&#35797;&#29992;&#20363;&#20102;&#65292;&#36825;&#26679;&#20320;&#21487;&#20197;&#22312;&#28155;&#21152;&#26032;&#20195;&#30721;&#26102;&#26356;&#23569;&#30340;&#25171;&#20081;&#26087;&#20195;&#30721;&#20102;&#12290;&#20170;&#22825;&#30340;&#21333;&#20803;&#27979;&#35797;&#23601;&#26159;&#26126;&#22825;&#30340;&#38450;&#27490;&#36864;&#21270;&#30340;&#27979;&#35797;{regression test}
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+<node CREATED="1422407855423" ID="ID_1924784698" MODIFIED="1422407866858" POSITION="right">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      15.2. Handling changing requirements
+    </p>
+  </body>
+</html></richcontent>
+<node CREATED="1422407934896" ID="ID_1313742305" MODIFIED="1422493213327">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Despite your best efforts to pin your customers to the ground and extract exact requirements from them&#160;on pain of horrible nasty things involving scissors and hot wax, requirements will change.
+    </p>
+    <p>
+      Most customers don't know what they want until they see it, and even if they do, they aren't that good at articulating what they want precisely enough to be useful. And even if they do, they'll want more in the next release anyway. So be prepared to update your test cases as requirements change.
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      [pope&#35793;] &#23613;&#31649;{despite}&#20320;&#26368;&#21162;&#21147;{efforts}&#30340;&#31449;&#22312;{pin}&#20320;&#30340;&#23458;&#25143;&#30340;&#20301;&#32622;&#65292;&#25552;&#21462;{extract}&#20934;&#30830;&#30340;{exact}&#38656;&#27714;&#65292;&#26469;&#33258;&#20110;&#20182;&#20204;&#21487;&#24597;{horribe}&#27745;&#31229;{nasty}&#20043;&#29289;&#30340;&#30171;&#33510;{pain} &#21253;&#25324; &#21098;&#20992;{scissors}&#21644;&#24456;&#28907;&#30340;&#34593;&#27833;{hot wax},&#38656;&#27714;&#36824;&#26159;&#20250;&#21464;&#21160;&#12290;
+    </p>
+    <p>
+      &#22810;&#25968;&#23458;&#25143;&#24182;&#19981;&#30693;&#36947;&#20182;&#20204;&#21040;&#24213;&#35201;&#20160;&#20040;&#30452;&#21040;&#20182;&#20204;&#30475;&#21040;&#25152;&#35201;&#30340;&#65292;&#24182;&#19988;&#21363;&#20351;&#20182;&#20204;&#20570;&#20102;&#65292;&#20182;&#20204;&#20063;&#19981;&#33021;&#28165;&#26224;&#30340;{articulating}&#25551;&#36848;&#21040;&#24213;&#20160;&#20040;&#23545;&#20182;&#20204;&#26377;&#29992;&#12290;&#24182;&#19988;&#21450;&#26102;&#20182;&#20204;&#36825;&#26679;&#20570;&#20102;&#65292;&#20182;&#20204;&#23558;&#22312;&#19979;&#20010;&#29256;&#26412;&#35201;&#27714;&#30340;&#26356;&#22810;&#12290;&#25152;&#20197;&#20934;&#22791;{prepared}&#26356;&#26032;&#20320;&#30340;&#27979;&#35797;&#29992;&#20363;&#22312;&#38656;&#27714;&#25913;&#21464;&#26102;&#12290;
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node CREATED="1422493350012" ID="ID_1411570008" MODIFIED="1422493955317">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Suppose, for instance, that you wanted to expand the range of the Roman numeral conversion functions. Remember the rule that said that no character could be repeated more than three times? Well, the Romans were willing to make an exception to that rule by having 4 M characters in a row to represent 4000. If you make this change, you'll be able to expand the range of convertible numbers from 1..3999 to 1..4999. But first, you need to make some changes to the test cases.
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      [pope&#35793;]
+    </p>
+    <p>
+      &#20551;&#35774;&#65292;&#36825;&#20010;&#20363;&#23376;&#20013;&#65292;&#20320;&#24819;&#35201;&#25193;&#23637;&#32599;&#39532;&#23383;&#31526;&#36716;&#25442;&#20989;&#25968;&#30340;&#34892;&#21015;&#20869;&#23481;&#12290;&#35760;&#24471;&#37027;&#20010;&#35268;&#21017;&#35828;&#30340;&#26159;&#19981;&#33021;&#26377;&#23383;&#31526;&#22810;&#20110;&#19977;&#27425;&#20986;&#29616;&#21527;&#65311;&#24456;&#22909;&#65292;&#32599;&#39532;&#23383;&#31526;&#23558;&#25193;&#23637;&#36825;&#20010;&#35268;&#21017;&#20026;&#21487;&#20197;&#26377;4&#20010;M&#26469;&#25551;&#36848;4000.&#22914;&#26524;&#20320;&#21019;&#24314;&#36825;&#20010;&#25913;&#21464;&#65292;&#20320;&#23558;&#25193;&#23637;&#36825;&#20010;&#23383;&#31526;&#20018;&#20174;1&#65374;3999&#20026;1&#65374;4999.&#20294;&#39318;&#20808;&#20320;&#38656;&#35201;&#22312;&#27979;&#35797;&#29992;&#20363;&#20013;&#20570;&#19968;&#20123;&#25913;&#21464;&#12290;
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+</node>
+</node>
+</map>

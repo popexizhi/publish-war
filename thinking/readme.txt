@@ -1,0 +1,1 @@
+List for your thinking,Doing what?How to do?Other thinking?

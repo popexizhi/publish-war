@@ -1,0 +1,191 @@
+ld-testusing 18:25:47
+  ****** Start Log Message ******
+Web Recorder version : 8.1.0.1292 
+Recording Mode: HTML-based script
+Correlation is enabled system wide
+Not recording headers
+Not excluding content types
+Do not record this content types as a resource:
+	text/html
+	text/xml
+Reset context between actions
+Record non-HTML elements in current HTML function
+Protocol Type: Multi-QTWeb
+
+$$$$$$ End Log Message $$$$$$
+
+Code generation version: 8.1.0.576
+
+****** Request Header For Transaction With Id 3 ******
+GET /Payment/jsp/app/system/webLogin.jsp HTTP/1.1
+Accept: */*
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+Host: 172.16.123.129:9000
+Connection: Keep-Alive
+
+
+$$$$$$ Request Header For Transaction With Id 3 Ended $$$$$$
+
+****** Response Header For Transaction With Id 3 ******
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=B73841F3E3E59B9DF930C3B6217B89E2; Path=/Payment
+Content-Type: text/html;charset=UTF-8
+Content-Length: 4603
+Date: Tue, 28 Feb 2012 10:18:17 GMT
+
+
+$$$$$$ Response Header For Transaction With Id 3 Ended $$$$$$
+
+****** Response Body For Transaction With Id 3 ******
+
+
+
+
+ 
+<script type='text/javascript' language='javascript' src='/Payment/script/common.js'></script>
+<script type='text/javascript' language='javascript' src='/Payment/script/jquery-1.6.4.min.js'></script>
+<script type='text/javascript' language='javascript' src='/Payment/script/jquery-ui-1.8.7.custom.min.js'></script>
+<link href="/Payment/skin/css/black-tie/jquery-ui-1.8.7.custom.css" rel="stylesheet" type="text/css" />
+<script type='text/javascript' language='javascript' src='/Payment/script/jQueryValidate/jquery.validate.js'></script>
+<script type='text/javascript' language='javascript' src='/Payment/script/jQueryValidate/localization/messages_cn.js'></script>
+<script type='text/javascript' language='javascript' src='/Payment/script/statLog/statUtil.js'></script>
+<script type='text/javascript' language='javascript' src='/Payment/script/ajaxSubmit.js'></script>
+<script type='text/javascript' language='javascript' src='/Payment/script/date/WdatePicker.js'></script>
+<script type='text/javascript' language='javascript' src='/Payment/script/StringUtil.js'></script>
+<script type='text/javascript'>
+	var path = '/Payment';
+</script>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head><title>前台登录</title>
+  
+</head>
+<link href="/Payment/skin/css/jsp/login.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/Payment/js/system/webLogin.js">
+</script>
+  
+  <body>
+  <input type="hidden" id="htmlLocalUrlId" value=""/>
+ <!-- 登录DIV�\x80�\x8B -->
+  <div class="loginweb" id="loginDiv">
+<div class="loginweb_top"><a href="" ><img src="/Payment/skin/images/jsp/logo.png" width="159" height="44" border="0"/></a></div>
+<div class="logoweb_bottom">
+<div class="logoweb_bottom_left"><img src="/Payment/skin/images/jsp/login_03.jpg" width="340" height="376" border="0" /></div>
+<div class="logoweb_bottom_right">
+<div class="logoweb_bottom_right1">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+  <tr>
+    <td width="54%" height="30" style="font-size:14px; color:#333;"><strong>&nbsp;&nbsp;&nbsp;登录</strong></td>
+    <td width="20%" style="font-size:12px; color:#ccc;">马上去注�\x8C</td>
+    <td width="26%"><a href="/Payment/jsp/app/system/webRegist.jsp" ><img src="/Payment/skin/images/jsp/c.png" width="81" height="23" border="0" /></a></td>
+  </tr>
+</table>
+<form action="" id="loginForm" style="margin: 0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style=" margin-top:25px;font-size: 12px;">
+  <tr>
+    <td width="24%" height="30" align="right">登录方式�\x9A</td>
+    <td width="76%">
+		<select id="loginTypeSelectId" name="loginType" style="padding:2px; color:#000;" onchange="loginTypeChange(this.id)">
+    		<option value="Phone">手机�\xB7</option>
+    		<option value="Name">用户�\x8D</option>
+    		<option value="Email">邮箱</option>
+    	</select>&nbsp;
+    <font color="red" id="loginErrorMessageShow"></font>
+	</td>
+  </tr>
+  <tr>
+    <td width="24%" height="30" align="right" id="loginTypeLoginValueName">手机号：</td>
+    <td width="76%"><input id="loginName" name="loginNameValue" type="text" size="22"  style="  padding:2px; color:#000;"/></td>
+  </tr>
+  <tr>
+    <td height="20" align="right">&nbsp;</td>
+    <td style="font-size:12px; color:#666;">请输入手机号/用户�\x8D/邮箱</td>
+  </tr>
+  <tr>
+    <td height="30" align="right">密码�\x9A</td>
+    <td><input type="password" id="loginPwd" name="loginPwd" size="22"  style="  padding:2px; color:#000;"/></td>
+  </tr>
+    <tr>
+    <td height="40" align="right">&nbsp;</td>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+        <tr>
+          <td width="8%"><input type="checkbox" id="loginNamePwdType"  /></td>
+          <td width="37%">记住用户�\x8D</td>
+          <td width="55%"><!-- <a href="javaScript:void(0)">忘记密码�\x9F</a> --></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="55">&nbsp;</td>
+    <td><a href="javaScript:void(0)" id="loginSubmitButton" onclick="loginSubmit()"><img src="/Payment/skin/images/jsp/logo_07.png" width="91" height="27" border="0" /></a></td>
+  </tr>
+</table>
+
+</form>
+</div>
+</div>
+</div>
+<div class="footweb"><a href="#" target="_blank">Copyright © 2008 Sunland Career  版权�\x80�\x89 京ICP�\x8709028559�\xB7</a>
+<a href="#" ><img src="/Payment/skin/images/jsp/foot_33.png" width="421" height="52" /></a>
+</div>
+</div>
+  <!-- 登录DIV结束 -->
+  
+    </body>
+</html>
+
+$$$$$$ Response Body For Transaction With Id 3 Ended $$$$$$
+
+****** Start Log Message ******
+
+Start Frames Hierarchy Tree Dump
+The Node has no URL
+End Frames Hierarchy Tree Dump
+
+$$$$$$ End Log Message $$$$$$
+
+****** Add Event For Transaction With Id 3 ****** (Location Flag : tFlagInsertEnd, Location ID : 3)
+	web_url("webLogin.jsp",
+		"URL=http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp",
+		"Resource=0",
+		"RecContentType=text/html",
+		"Referer=",
+		"Snapshot=t1.inf",
+		"Mode=HTML",
+		LAST);
+
+
+$$$$$$ Add Event For Transaction With Id 3 Ended $$$$$$
+
+****** Request Header For Transaction With Id 4 ******
+GET /Payment/script/common.js HTTP/1.1
+Accept: */*
+Referer: http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+Host: 172.16.123.129:9000
+Connection: Keep-Alive
+Cookie: JSESSIONID=B73841F3E3E59B9DF930C3B6217B89E2
+
+
+$$$$$$ Request Header For Transaction With Id 4 Ended $$$$$$
+
+****** Response Header For Transaction With Id 4 ******
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+ETag: W/"488-1329210081093"
+Last-Modified: Tue, 14 Feb 2012 09:01:21 GMT
+Content-Type: text/javascript;charset=UTF-8
+Content-Length: 488
+Date: Tue, 28 Feb 2012 10:18:17 GMT
+
+
+$$$$$$ Response Header For Transaction With Id 4 Ended $$$$$$
+
+****** Re
+

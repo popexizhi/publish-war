@@ -1,0 +1,246 @@
+Debug Message:
+	Correlation engine instance created; using configuration Default
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	TaskID=87  URL=http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	Rules could not be applied to /Payment/script/date/skin/WdatePicker.css
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	Rules could not be applied to /Payment/js/system/common/checkByDeelx.js
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	Rules could not be applied to /Payment/js/system/common/ajax.js
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Creating parameter {CSRule_1_UID3}:
+	SourceTaskID   = "87"
+	TargetTaskID   = "107"
+	Rule type      = "2"
+	Rule name      = "CSRule_1"
+	TargetType     = "1"
+	TargetTypeInfo = ""
+	ReplacedValue  = "Name"
+	ReplacePos     = "35"
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	Rules could not be applied to /Payment/skin/images/jsp/logobg_06.jpg
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	TaskID=120  URL=http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to lang/zh-cn.js
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/default/datepicker.css
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/datepicker.css
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/whyGreen/datepicker.css
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/blue/datepicker.css
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/bg.gif
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/left.gif
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/navLeft.gif
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/navRight.gif
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/bg_calendar.gif
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/qs.jpg
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to skin/simple/right.gif
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/user!login.action
+
+Creating parameter {CSRule_1_UID2}:
+	SourceTaskID   = "87"
+	TargetTaskID   = "135"
+	Rule type      = "2"
+	Rule name      = "CSRule_1"
+	TargetType     = "1"
+	TargetTypeInfo = ""
+	ReplacedValue  = "Phone"
+	ReplacePos     = "0"
+
+Reusing parameter {CSRule_1_UID3}:
+	SourceTaskID   = "87"
+	TargetTaskID   = "135"
+	Rule type      = "2"
+	Rule name      = "CSRule_1"
+	TargetType     = "1"
+	TargetTypeInfo = ""
+	ReplacedValue  = "Name"
+	ReplacePos     = "5"
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/jsp/app/system/webLogin.jsp
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	TaskID=136  URL=http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/bg_02.jpg
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/searchbg_03.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/grzx_03.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/title_09.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/logon_02.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/title_12.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/logon_131.jpg
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/logon_091.jpg
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/logon_131.jpg
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/images/jsp/logon_091.jpg
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/css/black-tie/images/ui-bg_highlight-hard_100_f9f9f9_1x100.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/css/black-tie/images/ui-bg_diagonals-thick_8_333333_40x40.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to ../skin/css/black-tie/images/ui-icons_bbbbbb_256x240.png
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
+Debug Message:
+	Rules could not be applied to http://172.16.123.129:9000/Payment/web/indexAction!toAppIndex.action
+
+Debug Message:
+	TaskID=157  URL=http://172.16.123.129:9000/Payment/script/date/My97DatePicker.htm
+
